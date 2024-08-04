@@ -1,0 +1,483 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/ae360af17e.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+        *,
+        ::after,
+        ::before {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            background:  #edeae6;
+            background-repeat: no-repeat;
+            background-position: center bottom;
+            background-size: cover;
+        }
+
+        h3 {
+            font-size: 1.2375rem;
+            color: #fff;
+        }
+
+        a {
+            cursor: pointer;
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        /* Layout skeleton */
+
+        .wrapper {
+            align-items: stretch;
+            display: flex;
+            width: 100%;
+        }
+
+        #sidebar {
+            max-width: 264px;
+            min-width: 264px;
+            transition: all 0.35s ease-in-out;
+            box-shadow: 0 0 35px 0 rgba(49, 57, 66, 0.5);
+            z-index: 1111;
+            background-color: #565d6c;
+        }
+
+        /* Sidebar collapse */
+
+        #sidebar.collapsed {
+            margin-left: -264px;
+        }
+
+        .main {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            transition: all 0.35s ease-in-out;
+            position: relative; /* Ensure relative positioning for absolute centering */
+        }
+
+        .sidebar-logo {
+            padding: 1.15rem 1.5rem;
+        }
+
+        .sidebar-logo a {
+            color: #e9ecef;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .sidebar-nav {
+            padding: 0;
+        }
+
+        .sidebar-header {
+            color: #e9ecef;
+            font-size: .75rem;
+            padding: 1.5rem 1.5rem .375rem;
+        }
+
+        a.sidebar-link {
+            padding: .625rem 1.625rem;
+            color: #e9ecef;
+            position: relative;
+            display: block;
+            font-size: 1rem;
+        }
+
+        .sidebar-link[data-bs-toggle="collapse"]::after {
+            border: solid;
+            border-width: 0 .075rem .075rem 0;
+            content: "";
+            display: inline-block;
+            padding: 2px;
+            position: absolute;
+            right: 1.5rem;
+            top: 1.4rem;
+            transform: rotate(-135deg);
+            transition: all .2s ease-out;
+        }
+
+        .sidebar-link[data-bs-toggle="collapse"].collapsed::after {
+            transform: rotate(45deg);
+            transition: all .2s ease-out;
+        }
+
+        .content {
+            flex: 1;
+            max-width: 100vw;
+            width: 100vw;
+        }
+
+        .card {
+            margin-right: auto;
+            margin-left: auto;
+            box-shadow: 0 15px 25px rgba(129, 124, 124, 0.2);
+            border-radius: 5px;
+            backdrop-filter: blur(14px);
+            background-color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .btn-custom {
+            background-color: #0047AB;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            color: #fff;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            text-align: center;
+        }
+
+        .btn-custom:hover {
+            background-color: #002080;
+            color:whitesmoke;
+        }
+
+        /* Responsive */
+
+        @media (min-width: 768px) {
+            .content {
+                width: auto;
+            }
+        }
+
+        .collapsed {
+            display: none; /* Initially hide the collapsed nav */
+        }
+
+        /* Centered Button Styles */
+       
+        .card {
+                position: relative;
+                width: 225px; /* Adjust width as needed */
+                overflow: hidden;
+                /* border-radius: 10px; Add border-radius for rounded corners */
+                transition: transform 0.3s ease-out;
+                background-color: white;
+            }
+    
+            .card:hover {
+    transform: scale(1.05); /* Zoom effect on hover */
+}
+
+.card-body {
+    position: relative;
+    height:fit-content;
+    padding-bottom: 0px;
+    text-align: left;
+    color:black;
+}
+
+.card-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* Limit to 1 line */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2em; /* Adjust line height for proper ellipsis display */
+    max-height: 1.2em; /* Limit the height to show only one line */
+    transition: max-height 0.3s ease-out, color 0.3s ease-out; /* Add color transition */
+    color: black;
+}
+
+.card:hover .card-text {
+    max-height: 100px; /* Adjust this value to match your content height */
+    overflow: visible;
+    transition: max-height 0.3s ease-in, color 0.3s ease-in; /* Adjust transition */
+    cursor: pointer;
+    color: #000; /* Change text color on hover */
+    -webkit-line-clamp: unset; /* Remove line clamp on hover */
+}
+
+.card .hi {
+    display: none;
+    transition: opacity 0.3s ease; /* Smooth transition for opacity */
+}
+
+.card:hover .hi {
+    display: block;
+    opacity: 1; /* Show the hi div on hover */
+}
+
+
+
+        /* Updated transitions for sidebar and nav links */
+        /* Sidebar transition */
+        #sidebar {
+            max-width: 264px;
+            min-width: 264px;
+            transition: margin-left 0.35s ease-in-out; /* Transition margin-left for sidebar */
+            box-shadow: 0 0 35px 0 rgba(49, 57, 66, 0.5);
+            z-index: 1111;
+        }
+
+        #sidebar.collapsed {
+            margin-left: -264px; /* Slide sidebar out */
+        }
+
+      
+         /* Typing animation */
+         .typing-animation {
+            font-size: 1rem;
+            color: #e9ecef;
+            padding: 1rem;
+            overflow: hidden;
+            white-space: pre-wrap; /* Allow wrapping to next line */
+            margin: 0 auto;
+            letter-spacing: .15em;
+            position: relative;
+        }
+
+        .typing-animation::after {
+            content: '|'; /* Initial cursor blink */
+            animation: blink-caret .5s step-end infinite;
+        }
+
+        #msg{
+            color: white;
+            font-size: x-large;
+            font-weight: bolder;
+            text-align: center;
+            margin: 25%;
+        }
+        
+        .sidebar-item.separator {
+        border-bottom: 1px solid #ccc;
+        margin-bottom: 10px;
+        margin-top: 20px;
+        min-width:264px;
+    }
+    
+   
+#hi{
+        margin-left: 25px;
+        margin-top:-5px;
+        margin-bottom: 5px;
+        position: fixed;
+        bottom:0;
+}
+
+.speci { position: fixed; bottom: 0; margin: 0 auto; top:550px; } 
+
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes blink-caret {
+            from, to {
+                border-color: transparent;
+            }
+            50% {
+                border-color: orange;
+            }
+        }
+        
+
+       
+    </style>
+    <title>Sidebar With Bootstrap</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <aside id="sidebar">
+            <div class="h-100">
+                <div class="sidebar-logo">
+                    <a href="{% url 'home' %}" style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>INTRA TRADE</span>
+                        <i class="fas fa-home" style="font-size: medium;"></i>
+                    </a>
+                </div>
+               
+                <div class="typing-animation" id="typing-container"></div>
+                <div class="speci">
+                              <li class="sidebar-item separator" ></li>
+                              <li class="sidebar-item">
+                                  <a href="#" class="sidebar-link" data-bs-toggle="collapse" data-bs-target="#auth"
+                                  aria-expanded="false" aria-controls="auth">
+                                      <i class="fa-solid fa-link pe-2"></i>
+                                      Links
+                                  </a>
+                                  <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#pages">
+                                      <li class="sidebar-item">
+                                          <a class="dropdown-item sidebar-link" href="{% url 'requestpost' %}">Post Product</a>
+                                      </li>
+                                      {% if flagh %}
+                                      <li class="sidebar-item">
+                                          <a class="dropdown-item sidebar-link" href="{% url 'view_request_post' %}">Post Product Approval</a>
+                                      </li>
+                                      <li class="sidebar-item">
+                                          <a class="dropdown-item sidebar-link" href="{% url 'view_interests' %}">View Interested People</a>
+                                      </li>
+                                      <li class="sidebar-item">
+                                        <a class="dropdown-item sidebar-link" href="{% url 'displaysent' %}">Dashboard</a>
+                                    </li>
+                                      {% endif %}
+                                      {% if flagb %}
+                                      <li class="sidebar-item">
+                                          <a class="dropdown-item sidebar-link" href="{% url 'view_interests_finance' %}">B&F Approval</a>
+                                      </li>
+                                      {% endif %}
+                                  </ul>
+                              </li>
+                          </div>
+                              <div id="hi">
+                                  {% if user.is_authenticated %}
+                                  <i class="fas fa-user-circle text-light"></i><a class="p-2 text-light">HI, {{user.username}}</a>
+                                  {% endif %}
+                          
+                          
+                              <table>
+                                  <tr>
+                                      <td>
+                              {% if user.is_authenticated %}
+                                  <li class="sidebar-link" style="display: block;text-align: left;margin-left:-27px;">
+                                      <a class="sidebar-link" href="{% url 'logout' %}" id="logoutLink" onclick="handleLogout()">Log Out</a>
+                                  </li>
+                              {% else %}
+                                  <li class="sidebar-link" style="display: block;text-align: left;margin-left:-27px;">
+                                      <a class="sidebar-link" href="{% url 'login' %}">Log In</a>
+                                  </li>
+                              {% endif %}
+                          </td>
+                              <td>
+                              <li class="nav-item" id="load" style="display: none;"><div id="loadingOverlay" class="top-0 start-0 w-100  h-100 d-flex align-items-center justify-content-center">
+                                  <div class="spinner-border spinner-border-md text-light" role="status">
+                                      <span class="visually-hidden">Loading...</span>
+                                  </div>
+                              </div>
+                          </li>
+                      </td>
+                      </tr>
+                      </table>
+                   </div>
+                  
+                </div>
+      </aside>
+      
+        <!-- Main Component -->
+        <div class="main">
+            
+            <main class="content px-3 py-2">
+                <div class="container-fluid">
+                  <div class="mb-3">
+                    <div class="row row-cols-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-3 row-cols-xxl-4">
+                      {% if interests %}
+                      {% for interest in interests %}
+                        <div class="col m-1">
+                            <div class="card m-1" style="width: 275px;">
+                            <img class="card-img-top" src="{{ interest.Item_id.ProductImage.url }}" alt="Card image" style="height:300px">
+                            <div class="card-body">
+                                    <table style="width: 100%;">
+                                        <tr>
+                                    <td style="width: 30%;"><h4 class="card-title me-5"><b>{{ interest.Item_id.ProductName }}</b></h4></td>
+                                </tr>
+                                </table>
+                                <p class="card-text" class="un">Description:{{ interest.Item_id.ProductDesc }}</p>
+                                <p class="card-text" class="un">Type:{{ interest.Item_id.ProductType }}</p>
+                                <p class="card-text" class="un">Dept:{{ interest.Item_id.Department }}</p>
+                                <p class="card-text" class="un">Request Emp ID::{{ interest.EmpID }}</p>
+                                <p class="card-text" class="un">Qty Requested:{{ interest.Product_count }}</p>
+                            <div class="d-flex justify-content-center">
+                                <form method="POST" action="{% url 'approve_request' interest.id %}">
+                                    {% csrf_token %}
+                                <button type="submit" class="btn btn-custom" style="background-color: #565d6c;border-radius: 5px;" data-bs-toggle="modal" data-bs-target="#staticBackdroptwo">Approve</button></form>
+                            </div>
+                        </div>
+                          </div></div>{% endfor %}
+
+                          {% else %}
+                        <div id="msg">
+                        <p>No requests to approve at the moment.</p>
+                        </div>
+                        {% endif %}
+                        
+    
+                    </div>
+                  </div>
+                </div>
+              </main>
+    </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+ 
+    const sidebar = document.querySelector("#sidebar");
+
+    const logoutLink = document.querySelector("#logoutLink");
+                const loading = document.querySelector("#load");
+                function handleLogout(event) {
+                    event.preventDefault();
+                    loading.style.display = "block";
+                    setTimeout(function () {
+                        loading.style.display = "none";
+                        window.location.href = logoutLink.getAttribute("href");
+                    }, 1000); 
+                }
+                logoutLink.addEventListener("click", function (event) {
+                    handleLogout(event);
+                });
+
+    
+});
+const text = "Renault Nissan Automotive India Private Limited (RNAIPL) is a strategic partnership between two global automotive giants, Renault and Nissan, operating in India. Established in 2008, RNAIPL is located in Oragadam, near Chennai, Tamil Nadu. This state-of-the-art manufacturing facility serves as a pivotal hub for production, catering to both domestic and export markets.";
+
+        const typingContainer = document.getElementById('typing-container');
+        let index = 0;
+
+        function typeWriter() {
+            if (index < text.length) {
+                typingContainer.innerHTML += text.charAt(index);
+                index++;
+                setTimeout(typeWriter, Math.floor(Math.random() * 150));
+            } else {
+                // Text typing finished, wait and then restart after some time
+                setTimeout(resetTyping, 3000); // 3000 milliseconds (3 seconds) delay before restarting
+            }
+        }
+
+        function resetTyping() {
+            typingContainer.innerHTML = ''; // Clear the container
+            index = 0; // Reset the index
+            typeWriter(); // Start typing again
+        }
+
+        typeWriter();
+
+
+
+    </script>
+</body>
+
+</html>
